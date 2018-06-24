@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface LearningRecordRepository: JpaRepository<LearningRecord, String>{
-    //@Query("select l from LearningRecord l where ?1")
-    //fun lateThan
+    @Query("select l from LearningRecord l where l.question like %?1% or l.answer like %?1% or l.fields like %?1%")
+    fun findByKeyword(keyword: String): List<LearningRecord>
 }

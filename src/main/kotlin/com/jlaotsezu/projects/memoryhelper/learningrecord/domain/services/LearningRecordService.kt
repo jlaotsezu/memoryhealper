@@ -10,4 +10,5 @@ interface LearningRecordService{
     fun search(keyword: String): List<LearningRecordVO>
     fun fetch(page: Int, pageSize: Int = 20): List<LearningRecordVO>
     fun fetchById(id: String): LearningRecordVO
+    fun fetchAll(): List<LearningRecordVO>
 }

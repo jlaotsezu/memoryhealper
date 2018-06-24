@@ -3,3 +3,6 @@ server:
 spring:
   application:
     name: LearningRecord
+  jpa:
+    hibernate:
+      ddl-auto: update

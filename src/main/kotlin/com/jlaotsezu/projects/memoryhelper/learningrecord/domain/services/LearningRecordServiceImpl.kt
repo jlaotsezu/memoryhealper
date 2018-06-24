@@ -10,6 +10,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class LearningRecordServiceImpl : LearningRecordService {
+    override fun fetchAll(): List<LearningRecordVO> {
+        return learningRecordRepository.findAll().map{
+            LearningRecordVO(it)
+        }
+    }
+
     @Autowired
     lateinit var learningRecordRepository: LearningRecordRepository
 
@@ -40,13 +46,7 @@ class LearningRecordServiceImpl : LearningRecordService {
 
 
     override fun search(keyword: String): List<LearningRecordVO> {
-        val learningRecord = LearningRecord()
-
-        learningRecord.question = keyword
-        learningRecord.answer = keyword
-        learningRecord.fields = keyword
-
-        return learningRecordRepository.findAll(Example.of(learningRecord)).map {
+        return learningRecordRepository.findByKeyword(keyword).map {
             LearningRecordVO(it)
         }
     }

@@ -1,6 +1,5 @@
 package com.jlaotsezu.projects.memoryhelper.learningrecord.resources
 
-import com.jlaotsezu.projects.memoryhelper.learningrecord.domain.entities.LearningRecord
 import com.jlaotsezu.projects.memoryhelper.learningrecord.domain.services.LearningRecordService
 import com.jlaotsezu.projects.memoryhelper.learningrecord.domain.valueobjects.LearningRecordVO
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,29 +11,29 @@ import org.springframework.web.bind.annotation.*
 class LearningRecordController{
     @Autowired
     lateinit var learningRecordService: LearningRecordService
-    @GetMapping("/learningRecord/{id}")
+    @GetMapping("/learningrecords/{id}")
     fun getLearningRecord(@PathVariable("id") id: String): ResponseEntity<LearningRecordVO>{
         val payload = learningRecordService.fetchById(id)
         return ResponseEntity(payload, HttpStatus.OK)
     }
-    @GetMapping("/learningRecords/search")
-    fun searchLearningRecords(@RequestParam("keyword") keyword: String): ResponseEntity<List<LearningRecordVO>>{
-        val payload = learningRecordService.search(keyword)
+    @GetMapping("/learningrecords")
+    fun getLearningRecords() = ResponseEntity(learningRecordService.fetchAll(), HttpStatus.OK)
+    @PostMapping("/learningrecords/by-keyword")
+    fun searchLearningRecords(@RequestBody learningRecordByKeywordRequest: LearningRecordByKeywordRequest): ResponseEntity<List<LearningRecordVO>>{
+        val payload = learningRecordService.search(learningRecordByKeywordRequest.keyword)
         return ResponseEntity(payload, HttpStatus.OK)
     }
-    @GetMapping("/learningRecords/page/{page}")
-    fun getLearningRecords(@PathVariable("page") page: Int): ResponseEntity<List<LearningRecordVO>>{
-        val payload = learningRecordService.fetch(page = page)
+    @PostMapping("/learningrecords/by-page")
+    fun getLearningRecords(@RequestBody learningRecordByPageRequest: LearningRecordByPageRequest): ResponseEntity<List<LearningRecordVO>>{
+        val payload = learningRecordService.fetch(page = learningRecordByPageRequest.page)
         return ResponseEntity(payload, HttpStatus.OK)
     }
-    @PostMapping("/learningRecord/add")
-    fun addLearningRecord(@RequestBody learningRecordVO: LearningRecordVO): ResponseEntity<Unit>{
-        learningRecordService.insert(learningRecordVO)
-        return ResponseEntity(HttpStatus.CREATED)
+    @PutMapping("/learningrecords")
+    fun addLearningRecord(@RequestBody learningRecordVO: LearningRecordVO): ResponseEntity<LearningRecordVO>{
+        return ResponseEntity(learningRecordService.insert(learningRecordVO), HttpStatus.CREATED)
     }
-    @PutMapping("/learningRecord/update")
-    fun updateLearningRecord(@RequestBody learningRecordVO: LearningRecordVO): ResponseEntity<Unit>{
-        learningRecordService.update(learningRecordVO)
-        return ResponseEntity(HttpStatus.ACCEPTED)
+    @PostMapping("/learningrecords")
+    fun updateLearningRecord(@RequestBody learningRecordVO: LearningRecordVO): ResponseEntity<LearningRecordVO>{
+        return ResponseEntity(learningRecordService.update(learningRecordVO), HttpStatus.ACCEPTED)
     }
 }
