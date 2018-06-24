@@ -1,6 +1,5 @@
 package com.jlaotsezu.projects.memoryhelper.learningrecord.domain.services
 
-import com.jlaotsezu.projects.memoryhelper.learningrecord.domain.entities.LearningRecord
 import com.jlaotsezu.projects.memoryhelper.learningrecord.domain.valueobjects.LearningRecordVO
 
 
