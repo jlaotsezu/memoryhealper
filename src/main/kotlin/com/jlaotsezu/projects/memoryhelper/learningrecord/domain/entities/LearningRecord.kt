@@ -1,42 +1,29 @@
 package com.jlaotsezu.projects.memoryhelper.learningrecord.domain.entities
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.UpdateTimestamp
 import javax.persistence.*
 
 @Entity
-class LearningRecord(){
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var learningrecord_id: Long = 0L
-    var question: String = ""
-    var answer: String = ""
-    var fields: String = ""
+@Table(name = "learningrecord")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+data class LearningRecord(
+        @Id
+        @GeneratedValue(generator = "uuid2")
+        @GenericGenerator(name = "uuid2", strategy = "uuid2")
+        var id: String = "",
+        var question: String,
+        var answer: String = "",
+        var fields: String,
+        var reviewTime: Int = 0,
 
-    @OneToOne
-    @JoinColumn(name = "rotabletime_id", unique = true, nullable = false, insertable = true, updatable = true)
-    var time: RotableTime = RotableTime()
+        @CreationTimestamp
+        var created: Long = System.currentTimeMillis(),
 
-    constructor(id: Long, question: String, answer: String, fields: String, time: RotableTime): this() {
-        this.learningrecord_id = id
-        this.question = question
-        this.answer = answer
-        this.fields = fields
-        this.time = time
-    }
-}
-
-@Entity
-class RotableTime (){
-
-    var rotabletime_id: Long = 0L
-    var startTime: Long = 0L
-    var repeatedTime: Int = 0
-
-    constructor(rotabletime_id: Long, startTime: Long, repeatedTime: Int): this() {
-        this.rotabletime_id = rotabletime_id
-        this.startTime = startTime
-        this.repeatedTime = repeatedTime
-    }
-
-
-    fun next(){}
+        @UpdateTimestamp
+        var updated: Long = System.currentTimeMillis()
+){
+    constructor(): this("", "", "", "", 0, 0, 0)
 }
