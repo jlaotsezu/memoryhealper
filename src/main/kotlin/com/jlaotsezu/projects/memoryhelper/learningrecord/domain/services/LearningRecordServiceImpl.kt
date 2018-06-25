@@ -4,23 +4,23 @@ import com.jlaotsezu.projects.memoryhelper.learningrecord.domain.entities.Learni
 import com.jlaotsezu.projects.memoryhelper.learningrecord.domain.repositories.LearningRecordRepository
 import com.jlaotsezu.projects.memoryhelper.learningrecord.domain.valueobjects.LearningRecordVO
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Example
-import org.springframework.data.domain.PageRequest
+
 import org.springframework.stereotype.Service
 
 @Service
 class LearningRecordServiceImpl : LearningRecordService {
+    @Autowired
+    lateinit var learningRecordRepository: LearningRecordRepository
+
     override fun fetchAll(): List<LearningRecordVO> {
         return learningRecordRepository.findAll().map{
             LearningRecordVO(it)
         }
     }
 
-    @Autowired
-    lateinit var learningRecordRepository: LearningRecordRepository
 
     override fun fetch(page: Int, pageSize: Int): List<LearningRecordVO> {
-        return learningRecordRepository.findAll(PageRequest.of(page - 1, pageSize)).content.map {
+        return learningRecordRepository.findAll().map {
             LearningRecordVO(it)
         }
     }

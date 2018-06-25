@@ -1,8 +1,0 @@
-server:
-  port: 80
-spring:
-  application:
-    name: LearningRecord
-  jpa:
-    hibernate:
-      ddl-auto: update
